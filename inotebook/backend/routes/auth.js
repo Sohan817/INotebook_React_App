@@ -4,10 +4,11 @@ const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const fetchUser = require("../middleware/fetchuser");
 
 const JWT_SECRET = "sohan";
 
-//Create a user usigg:POST "/api/auth/createuser" . No login required
+//Route 1:Create a user usigg:POST "/api/auth/createuser" . No login required
 router.post(
   "/createuser",
   [
@@ -50,7 +51,7 @@ router.post(
   }
 );
 
-//Authenticate a user usigg:POST "/api/auth/login" . No login required
+//Route 2: Authenticate a user usigg:POST "/api/auth/login" . No login required
 router.post(
   "/login",
   [
@@ -89,4 +90,17 @@ router.post(
     }
   }
 );
+//Route 3: Get loggedin user detail using this.post.Login required
+router.post("/getuser", fetchUser, async (req, res) => {
+  try {
+    // @ts-ignore
+    const userId = user_data.id;
+    const user = await User.findById(userId).select("-password");
+    res.send(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Some error occured");
+  }
+});
+
 module.exports = router;
