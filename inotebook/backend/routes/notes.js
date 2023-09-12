@@ -53,7 +53,7 @@ router.post(
 router.put("/updatenote/:id", fetchUser, async (req, res) => {
   const { title, description, tag } = req.body;
   try {
-    //Create a new oject
+    //Create a new object
     const newNote = {};
     if (title) {
       newNote.title = title;
