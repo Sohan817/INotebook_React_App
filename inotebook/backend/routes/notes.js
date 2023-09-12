@@ -3,7 +3,6 @@ const router = express.Router();
 const Note = require("../models/Note");
 const { body, validationResult } = require("express-validator");
 const fetchUser = require("../middleware/fetchuser");
-const User = require("../models/User");
 
 //Route 1: Get All the using: get "api/notes/fetchallnotes".Login required
 router.get("/fetchallnotes", fetchUser, async (req, res) => {
@@ -39,7 +38,7 @@ router.post(
         description,
         tag,
         // @ts-ignore
-        user: user_data.id,
+        user: req.user.id,
       });
       const saveNotes = await note.save();
       res.json(saveNotes);
@@ -49,4 +48,39 @@ router.post(
     }
   }
 );
+//Route 3:Update an existing note using: put "api/notes/updatenote/id".Login required
+router.put("/updatenote/:id", fetchUser, async (req, res) => {
+  try {
+    const { title, description, tag } = req.body;
+    //Create a new oject
+    const newNote = {};
+    if (title) {
+      newNote.title = title;
+    }
+    if (description) {
+      newNote.description = description;
+    }
+    if (tag) {
+      newNote.tag = tag;
+    }
+    let note = await Note.findById(req.params.id);
+    if (!note) {
+      res.status(404).send("Not Found");
+    }
+    // @ts-ignore
+    if (note.user.toString() !== req.user.id) {
+      res.status(401).send("Not Allowed");
+    }
+    note = await Note.findByIdAndUpdate(
+      req.params.id,
+      { $set: newNote },
+      { new: true }
+    );
+    res.json({ note });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Some error occured");
+  }
+});
+
 module.exports = router;
