@@ -10,5 +10,5 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/notes", require("./routes/notes"));
 
 app.listen(port, () => {
-  console.log(`Example app listening on http://localhost:${port}`);
+  console.log(`INotebook app backend listening on http://localhost:${port}`);
 });
