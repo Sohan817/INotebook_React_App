@@ -14,15 +14,6 @@ const NoteState = (props) => {
       __v: 0,
     },
     {
-      _id: "6500604dc814c4482bcaff56",
-      user: "64ff64611ed8fd76cdfdd374",
-      title: "My Title",
-      description: "Wake up early",
-      tag: "Personal",
-      date: "2023-09-12T12:57:49.410Z",
-      __v: 0,
-    },
-    {
       _id: "6500609bc814c4482bcaff59",
       user: "64ff64611ed8fd76cdfdd374",
       title: "New Notes",
