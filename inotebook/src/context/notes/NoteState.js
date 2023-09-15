@@ -14,7 +14,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDUwODg0MX0.LnpyeRmUxavti_VR9UGaUmJqhjI5MxnqpbQJCCLxWdA",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDgxMzY1Nn0.acyQfdQ0kVT334rvxybNmxHw9kdBmQ2yDUS1Lj5vG-U",
       },
     });
     const json = await response.json();
@@ -29,7 +29,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDUwODg0MX0.LnpyeRmUxavti_VR9UGaUmJqhjI5MxnqpbQJCCLxWdA",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDgxMzY1Nn0.acyQfdQ0kVT334rvxybNmxHw9kdBmQ2yDUS1Lj5vG-U",
       },
 
       body: JSON.stringify({ title, description, tag }),
@@ -54,7 +54,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDUzMDEwNn0.FQtRtPkFdfL1kYZMKJFPhq17R0D9HTyZZplte0lScNA",
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDgxMzY1Nn0.acyQfdQ0kVT334rvxybNmxHw9kdBmQ2yDUS1Lj5vG-U",
       },
 
       body: JSON.stringify({ title, description, tag }),
@@ -75,7 +75,17 @@ const NoteState = (props) => {
     }
   };
   //Delete a Notes
-  const deleteNotes = (id) => {
+  const deleteNotes = async (id) => {
+    //API call
+    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDgxMzY1Nn0.acyQfdQ0kVT334rvxybNmxHw9kdBmQ2yDUS1Lj5vG-U",
+      },
+    });
+    const json = response.json();
     const newNotes = notes.filter((note) => {
       return note._id !== id;
     });

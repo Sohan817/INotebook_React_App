@@ -6,7 +6,7 @@ export default function AddNotes() {
   const [note, setNote] = useState({
     title: "",
     description: "",
-    tag: "",
+    tag: "default",
   });
   const handleClick = (e) => {
     e.preventDefault();
