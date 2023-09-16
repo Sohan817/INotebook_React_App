@@ -6,6 +6,8 @@ import About from "./components/About";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NoteState from "./context/notes/NoteState";
 import Alert from "./components/Alert";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 
 function App() {
   return (
@@ -23,6 +25,14 @@ function App() {
               {" "}
               <Route path="/about" element={<About />} />
             </Routes>
+            <Routes>
+              {" "}
+              <Route path="/login" element={<Login />} />
+            </Routes>
+            <Routes>
+              {" "}
+              <Route path="/signup" element={<SignUp />} />
+            </Routes>
           </div>
         </Router>
       </NoteState>
@@ -31,3 +41,4 @@ function App() {
 }
 
 export default App;
+<Login />;

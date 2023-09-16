@@ -62,7 +62,7 @@ export default function Notes() {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="exampleModalLabel">
-                Modal title
+                Edit Note
               </h5>
               <button
                 type="button"
