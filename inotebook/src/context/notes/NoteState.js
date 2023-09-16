@@ -18,7 +18,6 @@ const NoteState = (props) => {
       },
     });
     const json = await response.json();
-    console.log(json);
     setNotes(json);
   };
   //Add a Notes
@@ -34,23 +33,14 @@ const NoteState = (props) => {
 
       body: JSON.stringify({ title, description, tag }),
     });
-    const json = response.json();
-    const note = {
-      _id: "6500609bc814c4482bcaff59",
-      user: "64ff64611ed8fd76cdfdd374",
-      title: title,
-      description: description,
-      tag: tag,
-      date: "2023-09-12T12:59:07.930Z",
-      __v: 0,
-    };
+    const note = await response.json();
     setNotes(notes.concat(note));
   };
   //update a Notes
   const updateNotes = async (id, title, description, tag) => {
     //API call
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-      method: "POST",
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token":
@@ -59,20 +49,20 @@ const NoteState = (props) => {
 
       body: JSON.stringify({ title, description, tag }),
     });
-    const json = response.json();
+    const json = await response.json();
+    console.log(json);
+    const newNotes = JSON.parse(JSON.stringify(notes));
     //Logic to edit in client
-    for (let index = 0; index < notes.length; index++) {
-      var element = notes[index];
+    for (let index = 0; index < newNotes.length; index++) {
+      var element = newNotes[index];
+      if (element._id === id) {
+        newNotes[index].title = title;
+        newNotes[index].description = description;
+        newNotes[index].tag = tag;
+        break;
+      }
     }
-    // @ts-ignore
-    if (element._id === id) {
-      // @ts-ignore
-      element.title = title;
-      // @ts-ignore
-      element.description = description;
-      // @ts-ignore
-      element.tag = tag;
-    }
+    setNotes(newNotes);
   };
   //Delete a Notes
   const deleteNotes = async (id) => {
@@ -85,7 +75,8 @@ const NoteState = (props) => {
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDgxMzY1Nn0.acyQfdQ0kVT334rvxybNmxHw9kdBmQ2yDUS1Lj5vG-U",
       },
     });
-    const json = response.json();
+    const json = await response.json();
+    console.log(json);
     const newNotes = notes.filter((note) => {
       return note._id !== id;
     });
