@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import NotesItem from "./NotesItem";
 import AddNotes from "./AddNotes";
 import noteContext from "../context/notes/noteContext";
-export default function Notes() {
+export default function Notes(props) {
   const context = useContext(noteContext);
   const { notes, getNotes, updateNotes } = context;
   useEffect(() => {
@@ -32,14 +32,14 @@ export default function Notes() {
     updateNotes(note.id, note.etitle, note.edescription, note.etag);
     // @ts-ignore
     refClose.current.click();
+    props.showAlert("Updated Successfully", "success");
   };
   const onChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
   };
   return (
     <>
-      <AddNotes />
-
+      <AddNotes showAlert={props.showAlert} />
       <button
         ref={ref}
         type="button"
@@ -150,7 +150,12 @@ export default function Notes() {
           {notes.length === 0 && "No notes to display"}
           {notes.map((note) => {
             return (
-              <NotesItem key={note._id} updateNote={updateNote} note={note} />
+              <NotesItem
+                key={note._id}
+                updateNote={updateNote}
+                showAlert={props.showAlert}
+                note={note}
+              />
             );
           })}
         </div>
