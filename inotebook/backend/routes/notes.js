@@ -7,11 +7,12 @@ const fetchUser = require("../middleware/fetchuser");
 //Route 1: Get All the using: get "api/notes/fetchallnotes".Login required
 router.get("/fetchallnotes", fetchUser, async (req, res) => {
   try {
-    const notes = await Note.find(req.body.id);
-    res.json(notes);
+    // @ts-ignore
+    const notes = await Note.find({ user: req.user.id });
+    return res.json(notes);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Some error occured");
+    return res.status(500).send("Some error occured");
   }
 });
 
@@ -41,10 +42,10 @@ router.post(
         user: req.user.id,
       });
       const saveNotes = await note.save();
-      res.json(saveNotes);
+      return res.json(saveNotes);
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Some error occured");
+      return res.status(500).send("Some error occured");
     }
   }
 );
@@ -67,43 +68,42 @@ router.put("/updatenote/:id", fetchUser, async (req, res) => {
     //Find the note to be updated and update it
     let note = await Note.findById(req.params.id);
     if (!note) {
-      res.status(404).send("Not Found");
+      return res.status(404).send("Not Found");
     }
     //Aloow updation if user own this note
     // @ts-ignore
     if (note.user.toString() !== req.user.id) {
-      res.status(401).send("Not Allowed");
+      return res.status(401).send("Not Allowed");
     }
     note = await Note.findByIdAndUpdate(
       req.params.id,
       { $set: newNote },
       { new: true }
     );
-    res.json({ note });
+    return res.json({ note });
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Some error occured");
+    return res.status(500).send("Some error occured");
   }
 });
-
 //Route 4:Delete an existing note using: delete "api/notes/deletenote/id".Login required
 router.delete("/deletenote/:id", fetchUser, async (req, res) => {
   try {
-    //Find the note to be updated and update it
+    //Find the note to be delete and delete it
     let note = await Note.findById(req.params.id);
     if (!note) {
-      res.status(404).send("Not Found");
+      return res.status(404).send("Not Found");
     }
     //Aloow updation if user own this note
     // @ts-ignore
     if (note.user.toString() !== req.user.id) {
-      res.status(401).send("Not Allowed");
+      return res.status(401).send("Not Allowed");
     }
     note = await Note.findByIdAndDelete(req.params.id);
     res.json({ Sucess: "Note has been deleted", note: note });
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Some error occured");
+    return res.status(500).send("Some error occured");
   }
 });
 

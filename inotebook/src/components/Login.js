@@ -6,7 +6,7 @@ const Login = (props) => {
   const [credencials, setcredencials] = useState({ email: "", password: "" });
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`http://localhost:5000/api/auth/login`, {
+    const response = await fetch("http://localhost:5000/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,12 +17,12 @@ const Login = (props) => {
       }),
     });
     const json = await response.json();
-    console.log(json);
+    console.log(json.authToken);
     if (json.success) {
       //Save the auth token and redirect
       localStorage.setItem("token", json.authToken);
-      navigate("/");
       props.showAlert("Logged in successfully", "success");
+      navigate("/");
     } else {
       props.showAlert("Invalied email or password", "danger");
     }

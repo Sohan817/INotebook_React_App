@@ -71,7 +71,7 @@ export default function AddNotes(props) {
             disabled={note.title.length < 5 || note.description.length < 5}
             type="submit"
             onClick={handleClick}
-            className="btn btn-primary"
+            className="btn btn-success"
           >
             Add Note
           </button>

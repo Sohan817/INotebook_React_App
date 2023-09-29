@@ -4,17 +4,17 @@ import NoteContext from "./noteContext";
 
 const NoteState = (props) => {
   const host = "http://localhost:5000";
-  const noteInitialization = [];
+  let noteInitialization = [];
   const [notes, setNotes] = useState(noteInitialization);
   //Get all Notes
   const getNotes = async () => {
     //API call
     const response = await fetch(`${host}/api/notes/fetchallnotes`, {
       method: "GET",
+      // @ts-ignore
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDgxMzY1Nn0.acyQfdQ0kVT334rvxybNmxHw9kdBmQ2yDUS1Lj5vG-U",
+        "auth-token": localStorage.getItem("token"),
       },
     });
     const json = await response.json();
@@ -25,10 +25,10 @@ const NoteState = (props) => {
     //API call
     const response = await fetch(`${host}/api/notes/addnote`, {
       method: "POST",
+      // @ts-ignore
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDgxMzY1Nn0.acyQfdQ0kVT334rvxybNmxHw9kdBmQ2yDUS1Lj5vG-U",
+        "auth-token": localStorage.getItem("token"),
       },
 
       body: JSON.stringify({ title, description, tag }),
@@ -41,10 +41,10 @@ const NoteState = (props) => {
     //API call
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
       method: "PUT",
+      // @ts-ignore
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDgxMzY1Nn0.acyQfdQ0kVT334rvxybNmxHw9kdBmQ2yDUS1Lj5vG-U",
+        "auth-token": localStorage.getItem("token"),
       },
 
       body: JSON.stringify({ title, description, tag }),
@@ -69,10 +69,10 @@ const NoteState = (props) => {
     //API call
     const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
       method: "DELETE",
+      // @ts-ignore
       headers: {
         "Content-Type": "application/json",
-        "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjRmZjY0NjExZWQ4ZmQ3NmNkZmRkMzc0In0sImlhdCI6MTY5NDgxMzY1Nn0.acyQfdQ0kVT334rvxybNmxHw9kdBmQ2yDUS1Lj5vG-U",
+        "auth-token": localStorage.getItem("token"),
       },
     });
     const json = await response.json();

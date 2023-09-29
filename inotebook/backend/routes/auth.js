@@ -21,13 +21,12 @@ router.post(
     //If there are errors return bad request and the errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ success, errors: errors.array() });
     }
     //check whether the user with this email exits already
     try {
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        success = false;
         return res
           .status(400)
           .json({ success, errors: "Sorry! Email already exists" });
@@ -48,10 +47,10 @@ router.post(
 
       // res.json(user);
       success = true;
-      res.json({ success, authToken });
+      return res.json({ success, authToken });
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Some error occured");
+      return res.status(500).send("Some error occured");
     }
   }
 );
@@ -93,10 +92,10 @@ router.post(
       };
       const authToken = jwt.sign(data, JWT_SECRET);
       success = true;
-      res.json({ success, authToken });
+      return res.json({ success, authToken });
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Some error occured");
+      //return res.status(500).send("Some error occured");
     }
   }
 );
@@ -106,10 +105,10 @@ router.post("/getuser", fetchUser, async (req, res) => {
     // @ts-ignore
     const userId = req.user.id;
     const user = await User.findById(userId).select("-password");
-    res.send(user);
+    return res.send(user);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Some error occured");
+    return res.status(500).send("Some error occured");
   }
 });
 

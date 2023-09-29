@@ -12,7 +12,9 @@ const fetchUser = (req, res, next) => {
     // @ts-ignore
     req.user = data.user;
   } catch (error) {
-    res.status(401).json({ error: "Please authenticate using a valid token" });
+    return res
+      .status(401)
+      .json({ error: "Please authenticate using a valid token" });
   }
   next();
 };
